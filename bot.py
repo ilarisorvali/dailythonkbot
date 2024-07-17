@@ -40,7 +40,7 @@ if __name__ == "__main__":
     local_filename = 'downloaded_image.jpg'
     
     # Download the image locally (testing)
-    #download_image(image_url, local_filename)
+    download_image(image_url, local_filename)
     
     # Post the image to Slack
     post_image_to_slack(CHANNEL_ID, local_filename)
