@@ -162,3 +162,5 @@ cython_debug/
 #.idea/
 
 downloaded_image.jpg
+page*
+recipe*
