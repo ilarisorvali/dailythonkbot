@@ -76,5 +76,5 @@ def post_subpages(page, ts):
         
         # Post the image to Slack
         text = f"Page {page}, Subpage {i}"
-        post_image_to_channel(CHANNEL_ID, local_filename, SLACK_BOT_TOKEN, text, ts)
+        post_image_to_channel(CHANNEL_ID, local_filename, SLACK_BOT_TOKEN, text)
 
