@@ -59,7 +59,7 @@ def get_subpage_count(page):
     except Exception as err:
         print(f"Other error occurred: {err}")
 
-def post_subpages(page):
+def post_subpages(page, ts):
     subpage_count = get_subpage_count(page)
     print(subpage_count)
     
@@ -76,5 +76,5 @@ def post_subpages(page):
         
         # Post the image to Slack
         text = f"Page {page}, Subpage {i}"
-        post_image_to_channel(CHANNEL_ID, local_filename, SLACK_BOT_TOKEN, text)
+        post_image_to_channel(CHANNEL_ID, local_filename, SLACK_BOT_TOKEN, text, ts)
 
