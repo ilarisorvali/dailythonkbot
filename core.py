@@ -59,7 +59,7 @@ def get_subpage_count(page):
     except Exception as err:
         print(f"Other error occurred: {err}")
 
-def post_subpages(page, ts):
+def post_subpages(page):
     subpage_count = get_subpage_count(page)
     print(subpage_count)
     
