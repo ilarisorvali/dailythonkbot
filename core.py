@@ -13,6 +13,8 @@ APP_KEY = os.getenv('APP_KEY')
 SLACK_BOT_TOKEN = os.getenv('SLACK_BOT_TOKEN')
 CHANNEL_ID = os.getenv('CHANNEL_ID')
 
+client = WebClient(token=SLACK_BOT_TOKEN)
+
 # Download the image locally
 def download_image(image_url, local_filename):
     # Download the image from the URL
@@ -26,8 +28,7 @@ def download_image(image_url, local_filename):
         print(f"Failed to download image. Status code: {response.status_code}")
 
 # Post the image to Slack
-def post_image_to_channel(channel_id, filename, bot_token, text, thread=None) -> SlackResponse | None:
-    client = WebClient(token=bot_token)
+def post_image_to_channel(channel_id, filename, text, thread=None) -> SlackResponse | None:
     try:
         response = client.files_upload_v2(
             channels=channel_id,
