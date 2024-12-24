@@ -1,5 +1,6 @@
 import os
 import requests
+import time
 from dotenv import load_dotenv
 from slack_sdk import WebClient
 from slack_sdk.web import SlackResponse
@@ -11,7 +12,6 @@ APP_KEY = os.getenv('APP_KEY')
 SLACK_BOT_TOKEN = os.getenv('SLACK_BOT_TOKEN')
 CHANNEL_ID = os.getenv('CHANNEL_ID')
 FILE_FOLDER = os.getenv("FILE_FOLDER")
-
 
 client = WebClient(token=SLACK_BOT_TOKEN)
 
@@ -31,10 +31,15 @@ def download_image(image_url, local_filename):
         print(f"Image downloaded: {local_filename}")
     else:
         print(f"Failed to download image. Status code: {response.status_code}")
-    
-def post_image_to_channel_v2(channel_id, filename, title) -> SlackResponse | None:
+
+
+def post_image_to_channel_v2(channel_id, filename, title, initial=None, thread=None, parent=False) -> str | None:
     file_path = os.path.join(FILE_FOLDER, filename)
     file_size = os.stat(file_path).st_size
+
+    #May be used later to get thread_ts with file_id if replies are needed
+    info = None
+    thread_id = None
     
     #Get url where to upload file
     url = client.files_getUploadURLExternal(filename=filename, length=file_size)
@@ -43,17 +48,27 @@ def post_image_to_channel_v2(channel_id, filename, title) -> SlackResponse | Non
     
     #Open file and upload to Slack upload url
     with open(file_path, "rb") as file_content:
-        #print(file_content)
+        
         postresponse = requests.post(upload_url, files={"file": file_content})
-        print(postresponse)
 
+    #Complete the file upload and post to channel, may be replied to a thread with threads thread_ts    
     complete_response = client.files_completeUploadExternal(
             files=[{"id": file_id, "title": title}],
-            channel_id=channel_id
+            channel_id=channel_id,
+            thread_ts=thread,
+            initial_comment=initial
         )
+    
+    #Dirty hack to make sure that uploaded thread start image gets a thread_ts from the server
+    #FIXME idk make a better implementation (proper utils folder?)
+    if (parent):
+        time.sleep(5)
+        info = client.files_info(file=file_id)
+        thread_id = info["file"]["shares"]["public"][channel_id][0]["ts"]
 
-    #print(complete_response) #Debugging purposes
+    return(thread_id) 
 
+#Find out how many "subpages" a teksti-tv page has
 def get_subpage_count(page) -> int:
     url = f"https://external.api.yle.fi/v1/teletext/pages/{page}.json?app_id={APP_ID}&app_key={APP_KEY}"
 
@@ -71,7 +86,9 @@ def get_subpage_count(page) -> int:
     except Exception as err:
         print(f"Other error occurred: {err}")
 
-def post_subpages(page):
+#Post pages subpages, if it has any
+#FIXME make a better implementation of posting a page and subpages eg. post single page & post page and subpages as replies
+def post_subpages(page, thread):
     subpage_count = get_subpage_count(page)
     print(subpage_count)
 
@@ -84,4 +101,4 @@ def post_subpages(page):
 
         # Post the image to Slack
         text = f"Page {page}, Subpage {i}"
-        post_image_to_channel_v2(CHANNEL_ID, local_filename, text)
+        post_image_to_channel_v2(CHANNEL_ID, local_filename, text, thread=thread)

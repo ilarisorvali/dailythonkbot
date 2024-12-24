@@ -16,11 +16,5 @@ if __name__ == "__main__":
 
     download_image(image_url, local_filename)
 
-    thread: str | None = None
-    resp = post_image_to_channel_v2(CHANNEL_ID, local_filename, "Viikon reseptit")
-    print(resp)
-
-    if resp is not None:
-        thread = resp['file']['timestamp']
-    print(thread)
-    post_subpages(page_number, thread=thread)
+    thread_id = post_image_to_channel_v2(CHANNEL_ID, local_filename, "Viikon reseptit", parent=True)
+    post_subpages(page_number, thread=thread_id)
