@@ -12,13 +12,12 @@ CHANNEL_ID = os.getenv('CHANNEL_ID')
 if __name__ == "__main__":
     page_number = 811
     image_url = f'https://external.api.yle.fi/v1/teletext/images/{page_number}/1.png?app_id={APP_ID}&app_key={APP_KEY}'
-    print(image_url)
     local_filename = 'recipe_image.jpg'
 
     download_image(image_url, local_filename)
 
     thread: str | None = None
-    resp = post_image_to_channel(CHANNEL_ID, local_filename, SLACK_BOT_TOKEN, "Viikon reseptit")
+    resp = post_image_to_channel_v2(CHANNEL_ID, local_filename, "Viikon reseptit")
     print(resp)
 
     if resp is not None:
