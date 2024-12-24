@@ -3,7 +3,6 @@ import requests
 from dotenv import load_dotenv
 from slack_sdk import WebClient
 from slack_sdk.web import SlackResponse
-from slack_sdk.errors import SlackApiError
 
 load_dotenv(override=True)
 
@@ -36,25 +35,24 @@ def download_image(image_url, local_filename):
 def post_image_to_channel_v2(channel_id, filename, title) -> SlackResponse | None:
     file_path = os.path.join(FILE_FOLDER, filename)
     file_size = os.stat(file_path).st_size
-    print(file_size)
-    print(channel_id)
     
+    #Get url where to upload file
     url = client.files_getUploadURLExternal(filename=filename, length=file_size)
     upload_url = url["upload_url"]
     file_id = url["file_id"]
-    print (url)
     
+    #Open file and upload to Slack upload url
     with open(file_path, "rb") as file_content:
-        print(file_content)
+        #print(file_content)
         postresponse = requests.post(upload_url, files={"file": file_content})
-        print(postresponse)
+        #print(postresponse)
 
     complete_response = client.files_completeUploadExternal(
             files=[{"id": file_id, "title": title}],
             channel_id=channel_id
         )
 
-    print(complete_response) #Debugging purposes
+    #print(complete_response) #Debugging purposes
 
 def get_subpage_count(page) -> int:
     url = f"https://external.api.yle.fi/v1/teletext/pages/{page}.json?app_id={APP_ID}&app_key={APP_KEY}"
@@ -73,7 +71,7 @@ def get_subpage_count(page) -> int:
     except Exception as err:
         print(f"Other error occurred: {err}")
 
-def post_subpages(page, thread=None):
+def post_subpages(page):
     subpage_count = get_subpage_count(page)
     print(subpage_count)
 
@@ -81,7 +79,6 @@ def post_subpages(page, thread=None):
     for i in range(2, subpage_count + 1):
         image_url = f"https://external.api.yle.fi/v1/teletext/images/{page}/{i}.png?app_id={APP_ID}&app_key={APP_KEY}"
         local_filename = f"page_{page}_subpage_{i}.png"
-        print(thread)
         # Download the image
         download_image(image_url, local_filename)
 
