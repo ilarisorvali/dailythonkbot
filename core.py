@@ -32,24 +32,6 @@ def download_image(image_url, local_filename):
         print(f"Image downloaded: {local_filename}")
     else:
         print(f"Failed to download image. Status code: {response.status_code}")
-
-# Post the image to Slack
-def post_image_to_channel(channel_id, filename, text) -> SlackResponse | None:
-    full_path = os.path.join(FILE_FOLDER, filename)
-    
-    try:
-        response = client.files_upload_v2(
-            channels=channel_id,
-            file=full_path,
-            title=text
-        )
-        #print(thread)
-        print(f"Image posted to Slack: {response['file']['permalink']}")
-        return response
-
-    except SlackApiError as e:
-        print(f"Error uploading image: {e.response['error']}")
-        return None
     
 def post_image_to_channel_v2(channel_id, filename, title) -> SlackResponse | None:
     file_path = os.path.join(FILE_FOLDER, filename)
