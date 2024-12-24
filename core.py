@@ -45,7 +45,7 @@ def post_image_to_channel_v2(channel_id, filename, title) -> SlackResponse | Non
     with open(file_path, "rb") as file_content:
         #print(file_content)
         postresponse = requests.post(upload_url, files={"file": file_content})
-        #print(postresponse)
+        print(postresponse)
 
     complete_response = client.files_completeUploadExternal(
             files=[{"id": file_id, "title": title}],
