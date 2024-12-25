@@ -16,5 +16,5 @@ if __name__ == "__main__":
 
     download_image(image_url, local_filename)
 
-    thread_id = post_image_to_channel_v2(CHANNEL_ID, local_filename, "Viikon reseptit", parent=True)
+    thread_id = post_image_to_channel_v2(CHANNEL_ID, local_filename, "Viikon reseptit")
     post_subpages(page_number, thread=thread_id)

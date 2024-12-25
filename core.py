@@ -33,7 +33,7 @@ def download_image(image_url, local_filename):
         print(f"Failed to download image. Status code: {response.status_code}")
 
 
-def post_image_to_channel_v2(channel_id, filename, title, initial=None, thread=None, parent=False) -> str | None:
+def post_image_to_channel_v2(channel_id, filename, title, initial=None, thread=None) -> str | None:
     file_path = os.path.join(FILE_FOLDER, filename)
     file_size = os.stat(file_path).st_size
 
@@ -61,7 +61,7 @@ def post_image_to_channel_v2(channel_id, filename, title, initial=None, thread=N
     
     #Dirty hack to make sure that uploaded thread start image gets a thread_ts from the server
     #FIXME idk make a better implementation (proper utils folder?)
-    if (parent):
+    if (not thread):
         time.sleep(5)
         info = client.files_info(file=file_id)
         thread_id = info["file"]["shares"]["public"][channel_id][0]["ts"]
