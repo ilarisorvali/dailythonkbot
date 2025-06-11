@@ -51,7 +51,7 @@ def post_image_to_channel_v2(channel_id, filename, title, initial=None, thread=N
         
         postresponse = requests.post(upload_url, files={"file": file_content})
 
-    #Complete the file upload and post to channel, may be replied to a thread with threads thread_ts    
+    #Complete the file upload and post to channel, may be replied to a thread with optional thread_ts    
     complete_response = client.files_completeUploadExternal(
             files=[{"id": file_id, "title": title}],
             channel_id=channel_id,
@@ -64,6 +64,7 @@ def post_image_to_channel_v2(channel_id, filename, title, initial=None, thread=N
     if (not thread):
         time.sleep(5)
         info = client.files_info(file=file_id)
+        print(info)
         thread_id = info["file"]["shares"]["public"][channel_id][0]["ts"]
 
     return(thread_id) 
@@ -101,4 +102,5 @@ def post_subpages(page, thread):
 
         # Post the image to Slack
         text = f"Page {page}, Subpage {i}"
+        print(text) 
         post_image_to_channel_v2(CHANNEL_ID, local_filename, text, thread=thread)
