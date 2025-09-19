@@ -1,4 +1,4 @@
-# Foobar
+# Dailythonkbot
 
 Dailythonkbot is a python script to upload images from Yle tekstitv to Slack with a Slack bot user.
 
