@@ -2,13 +2,8 @@
 
 Dailythonkbot is a python script to upload images from Yle tekstitv to Slack with a Slack bot user.
 
-## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 
-```bash
-pip install foobar
-```
 
 ## Setup
 You need some variables set in the .env file to access the Yle tekstitv API and to use bot via Slack API for image posting.
