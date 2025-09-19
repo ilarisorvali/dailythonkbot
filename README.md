@@ -17,10 +17,10 @@ APP_KEY=YOUR APP KEY
 SLACK_BOT_TOKEN=YOUR SLACK BOT TOKEN
 
 CHANNEL_ID=CHANNEL ID OF THE CHANNEL YOU WANT TO POST DAILY THOUGHT AND RECIPES IN
-``` 
+```
 ### Yle API keys
 
-Getting Yle Teletext API keys is fairly trivial. See [here](https://developer.yle.fi/en/index.html) for instructions, [API tutorials](https://developer.yle.fi/tutorial-get-teletext-images/index.html) and documentation. You'll need app_id and app_key pair to authenticate to the service. 
+Getting Yle Teletext API keys is fairly trivial. See [here](https://developer.yle.fi/en/index.html) for instructions, [API tutorials](https://developer.yle.fi/tutorial-get-teletext-images/index.html) and documentation. You'll need app_id and app_key pair to authenticate to the service.
 
 (Be mindful of the rate limit 0 requests/second, 300 requests/hour and 7200 requests/day!)
 
@@ -34,7 +34,7 @@ First (if you don't have an App or wish to create a new one) you need to go to [
 - files:read
 - files:write
 
-These are needed to upload files (our images) to channels. With these permissions and the bot token the app is ready to be installed into the Slack workspace. Scroll up and click the button "Install to (workspace you selected when creating the app)". 
+These are needed to upload files (our images) to channels. With these permissions and the bot token the app is ready to be installed into the Slack workspace. Scroll up and click the button "Install to (workspace you selected when creating the app)".
 
 After that you'll see the xoxb- token that is used to authenticate as the App.
 
@@ -53,11 +53,11 @@ So now you should have
 
 
 ## Usage
-Loading up all the secrets to the .env file you can run the script with 
+Loading up all the secrets to the .env file you can run the script with
 ```python
 python recipes.py
 ```
-to pos this weeks(changes on wednesday btw) recipes page and subpages to target CHANNEL_ID channel or
+to post this weeks(changes on wednesday btw) recipes page and subpages to target CHANNEL_ID channel or
 
 ```python
 python ajatus.py
