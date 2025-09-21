@@ -120,7 +120,7 @@ This is the general command to start user-level systemd services:
 ```bash
 systemctl --user start name-of-service-unit.service
 ```
-The --user flag makes the systemd service run at user-level instead of as a root level service. There is no need to run dailythonkbot as a root level service.
+The --user flag makes the systemd service run (or any systemctl or journalctl command) at user-level instead of as a root level service. There is no need to run dailythonkbot as a root level service.
 
 Podman Quadlet files are generated into systemd services on system boot and when
 ```bash
