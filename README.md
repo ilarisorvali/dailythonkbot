@@ -141,7 +141,7 @@ You should now see a message with the Yle teksti-tv image posted on the chosen c
 
 Try the recipes as well
 ```bash
-systemctl --user start ajatus.service
+systemctl --user start recipes.service
 ```
 and now you should see the recipe page first image posted on the channel and subpages in the image thread. (There is currently a bug where subpages might get posted in incorrect order!)
 
