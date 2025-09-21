@@ -147,9 +147,30 @@ and now you should see the recipe page first image posted on the channel and sub
 
 To use the timer units simply enable the timer with
 ```bash
-systemctl --user enable name-of-timer.timer
+systemctl --user enable recipes.timer
 ```
 Do **NOT** enable the recipes.service or ajatus.service units directly because they will then start every time the system boots.
+
+To test that the timer works correctly you can configure it to fire every minute or so to see if it starts the container unit:
+
+```bash
+[Timer]
+OnCalendar=*-*-* *:*:00
+```
+
+To stop the timer run
+
+```bash
+systemctl --user disable recipes.timer
+```
+
+### Production
+
+When tested that the container units work, simply change the CHANNEL_ID in .env that the containers read to match your desired target slack channel and change your timers to fire off at desired times. Remember to run
+```bash
+systemd --user daemon-reload
+```
+each time you change anything about timers or other systemd unit files.
 
 ### Troubleshooting
 If you encounter problems with the automation a good way to check for errors is
