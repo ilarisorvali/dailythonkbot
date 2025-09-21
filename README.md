@@ -65,6 +65,39 @@ python ajatus.py
 to post the daily thought to target CHANNEL_ID channel.
 
 
+## Automation
+By far the easiest way to schedule message sending is by building the project into a container and running it with Podman as a systemd service. Run
+```docker
+podman build -t your-app-name .
+```
+
+Then running the container as a scheduled systemd service is done with a systemd unit and a timer.
+
+daily-thought.container:
+```ini
+[Unit]
+Description=Daily thought to slack
+After=network.target
+
+[Container]
+Image=tekstitv
+Exec=ajatus.py
+EnvironmentFile=/home/ilari/dailythonkbot/.env
+```
+daily-thought.timer:
+```ini
+[Unit]
+Description=Run dailythonkbot ajatus every day at 08:00 AM
+Wants=time-sync.target
+After=time-sync.target
+
+[Timer]
+OnCalendar=*-*-* 08:00:00
+```
+
+Place the .container unit file in ~/.config/containers/systemd and the .timer file in ~/.config/systemd/user. This
+
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
