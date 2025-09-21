@@ -57,7 +57,7 @@ Loading up all the secrets to the .env file you can run the script with
 ```python
 python recipes.py
 ```
-to post this weeks(changes on wednesday btw) recipes page and subpages to target CHANNEL_ID channel or
+to post this weeks (changes on wednesday, atleast at the time of writing) recipes page and subpages to target CHANNEL_ID channel or
 
 ```python
 python ajatus.py
