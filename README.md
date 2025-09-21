@@ -54,12 +54,12 @@ So now you should have
 
 ## Usage
 Loading up all the secrets to the .env file you can run the script with
-```python
+```
 python recipes.py
 ```
 to post this weeks (changes on wednesday, atleast at the time of writing) recipes page and subpages to target CHANNEL_ID channel or
 
-```python
+```
 python ajatus.py
 ```
 to post the daily thought to target CHANNEL_ID channel.
@@ -71,7 +71,7 @@ to post the daily thought to target CHANNEL_ID channel.
 By far the easiest way to schedule message sending is by building the project into a container and running it with Podman as a systemd service. We will focus on Podman [Quadlets](https://docs.podman.io/en/stable/markdown/podman-systemd.unit.5.html).
 
 Run the following command in the cloned repository folder to build the container for podman/systemd to use, you can choose the image name freely (in this guide tekstitv):
-```docker
+```
 podman build -t teksti .
 ```
 
@@ -117,13 +117,13 @@ With a .container unit and .timer file created under their respective folders an
 
 This is the general command to start user-level systemd services:
 
-```bash
+```
 systemctl --user start name-of-service-unit.service
 ```
 The --user flag makes the systemd service run (or any systemctl or journalctl command) at user-level instead of as a root level service. There is no need to run dailythonkbot as a root level service.
 
 Podman Quadlet files are generated into systemd services on system boot and when
-```bash
+```
 systemctl --user daemon-reload
 ```
 command is run. Run the command above now. Note that the generated services will have the same name as your .container Quadlet files have (recipes.container will become recipes.service) and you will use the .service name to run the container unit.
@@ -134,47 +134,47 @@ In your .env file choose a CHANNEL_ID that you wish to use for testing purposes.
 All of the examples assume the unit files are named ajatus.container, recipes.container, ajatus.timer and recipes.timer.
 
 Run the generated container unit once with the following command
-```bash
+```
 systemctl --user start ajatus.service
 ```
 You should now see a message with the Yle teksti-tv image posted on the chosen channel.
 
 Try the recipes as well
-```bash
+```
 systemctl --user start recipes.service
 ```
 and now you should see the recipe page first image posted on the channel and subpages in the image thread. (There is currently a bug where subpages might get posted in incorrect order!)
 
 To use the timer units simply enable the timer with
-```bash
+```
 systemctl --user enable recipes.timer
 ```
 Do **NOT** enable the recipes.service or ajatus.service units directly because they will then start every time the system boots.
 
 To test that the timer works correctly you can configure it to fire every minute or so to see if it starts the container unit:
 
-```bash
+```ini
 [Timer]
 OnCalendar=*-*-* *:*:00
 ```
 
 To stop the timer run
 
-```bash
+```
 systemctl --user disable recipes.timer
 ```
 
 ### Production
 
 When tested that the container units work, simply change the CHANNEL_ID in .env that the containers read to match your desired target slack channel and change your timers to fire off at desired times. Remember to run
-```bash
+```
 systemd --user daemon-reload
 ```
 each time you change anything about timers or other systemd unit files.
 
 ### Troubleshooting
 If you encounter problems with the automation a good way to check for errors is
-```bash
+```
 journalctl --user -u name-of-service.service
 ```
 which will show you systemd logs about a particular service.
