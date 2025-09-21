@@ -124,9 +124,9 @@ The --user flag makes the systemd service run at user-level instead of as a root
 
 Podman Quadlet files are generated into systemd services on system boot and when
 ```bash
-systemctl daemon-reload
+systemctl --user daemon-reload
 ```
-command is run. Run the command above now.
+command is run. Run the command above now. Note that the generated services will have the same name as your .container Quadlet files have (recipes.container will become recipes.service) and you will use the .service name to run the container unit.
 
 In your .env file choose a CHANNEL_ID that you wish to use for testing purposes.
 
