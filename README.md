@@ -180,7 +180,3 @@ journalctl --user -u name-of-service.service
 which will show you systemd logs about a particular service.
 
 Most common errors result from incorrect .env variables (see [Secrets setup](#secrets-setup)).
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
