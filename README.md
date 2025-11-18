@@ -68,9 +68,9 @@ to post the daily thought to target CHANNEL_ID channel.
 ## Automation
 
 ### Setup
-By far the easiest way to schedule message sending is by building the project into a container and running it with Podman as a systemd service. We will focus on Podman [Quadlets](https://docs.podman.io/en/stable/markdown/podman-systemd.unit.5.html).
+By far the easiest way to schedule message sending is by building the project into an OCI image and running it with Podman as a systemd container service. We will focus on Podman [Quadlets](https://docs.podman.io/en/stable/markdown/podman-systemd.unit.5.html).
 
-Run the following command in the cloned repository folder to build the container for podman/systemd to use, you can choose the image name freely (in this guide tekstitv):
+Run the following command in the cloned repository folder to build the image for podman/systemd to use, you can choose the image name freely (in this guide tekstitv):
 ```
 podman build -t teksti .
 ```
