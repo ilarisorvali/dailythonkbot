@@ -18,10 +18,16 @@ client = WebClient(token=SLACK_BOT_TOKEN)
 
 # Download the image locally
 def download_image(image_url, local_filename):
+    #Check if download folder is specified in the config .env
     if not FILE_FOLDER:
         print("IMAGE_SAVE_PATH not set in .env file")
         return
     full_path = os.path.join(FILE_FOLDER, local_filename)
+
+
+    if not os.path.exists(FILE_FOLDER):
+        os.makedirs(FILE_FOLDER)
+
 
     # Download the image from the URL
     response = requests.get(image_url)
@@ -52,18 +58,21 @@ def post_image_to_channel_v2(
     # Open file and upload to Slack upload url
     with open(file_path, "rb") as file_content:
         requests.post(upload_url, files={"file": file_content})
+        requests.post(upload_url, files={"file": file_content})
 
-    # Complete the file upload and post to channel, may be replied to a thread with optional thread_ts
-    client.files_completeUploadExternal(
-        files=[{"id": file_id, "title": title}],
-        channel_id=channel_id,
-        thread_ts=thread,
-        initial_comment=initial,
-    )
-
-    # Dirty hack to make sure that uploaded thread start image gets a thread_ts from the server
-    # FIXME idk make a better implementation (proper utils folder?)
-    if not thread:
+    #Complete the file upload and post to channel, may be replied to a thread with optional thread_ts    
+        client.files_completeUploadExternal(
+            files=[{"id": file_id, "title": title}],
+            channel_id=channel_id,
+            thread_ts=thread,
+            initial_comment=initial
+        )
+    
+    #Get thread_id from the server, thread_id is needed for posting replies to a thread.
+    #This is a dirty hack type shit that sleeps 5 seconds to make sure that the thread we created exists
+    #before attempting to get thread_id
+    #FIXME idk make a better implementation 
+    if (not thread):
         time.sleep(5)
         info = client.files_info(file=file_id)
         print(info)
