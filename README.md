@@ -72,7 +72,7 @@ By far the easiest way to schedule message sending is by building the project in
 
 Run the following command in the cloned repository folder to build the image for podman/systemd to use, you can choose the image name freely (in this guide tekstitv):
 ```
-podman build -t teksti .
+podman build -t tekstitv .
 ```
 
 Then running the container with the name we chose earlier as a scheduled systemd service is done with a systemd container unit and a timer. The container unit is a Podman Quadlet file. This is explained below.
