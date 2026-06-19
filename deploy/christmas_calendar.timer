@@ -1,0 +1,10 @@
+[Unit]
+Description=Run dailythonkbot ajatus every day at 08:00 AM
+Wants=time-sync.target
+After=time-sync.target
+
+[Timer]
+OnCalendar=*-*-* 09:00:05
+
+[Install]
+WantedBy=timers.target

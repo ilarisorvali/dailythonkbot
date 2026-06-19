@@ -1,0 +1,8 @@
+[Unit]
+Description=Daily thought to slack
+After=network.target
+
+[Container]
+Image=tekstitv
+Exec=christmas_calendar.py
+EnvironmentFile=/home/ilari/dailythonkbot/.env
