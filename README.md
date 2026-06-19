@@ -22,7 +22,7 @@ CHANNEL_ID=CHANNEL ID OF THE CHANNEL YOU WANT TO POST DAILY THOUGHT AND RECIPES 
 
 Getting Yle Teletext API keys is fairly trivial. See [here](https://developer.yle.fi/en/index.html) for instructions, [API tutorials](https://developer.yle.fi/tutorial-get-teletext-images/index.html) and documentation. You'll need app_id and app_key pair to authenticate to the service.
 
-(Be mindful of the rate limit 0 requests/second, 300 requests/hour and 7200 requests/day!)
+(Be mindful of the rate limit 10 requests/second, 300 requests/hour and 7200 requests/day!)
 
 ### Slack bot and bot tokens
 Slack bot setup and bot tokens are a bit complex and authentication protocol changes from time to time.
