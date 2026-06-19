@@ -1,0 +1,46 @@
+name: Build and Push Container
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  IMAGE_NAME: ghcr.io/${{ github.repository_owner }}/dailythonkbot
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Podman
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y podman
+
+      - name: Log in to GHCR
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | \
+            podman login ghcr.io \
+              --username "${{ github.actor }}" \
+              --password-stdin
+
+      - name: Build image
+        run: |
+          podman build \
+            -f Containerfile \
+            -t $IMAGE_NAME:latest \
+            -t $IMAGE_NAME:${{ github.sha }} \
+            .
+
+      - name: Push image
+        run: |
+          podman push $IMAGE_NAME:latest
+          podman push $IMAGE_NAME:${{ github.sha }}
